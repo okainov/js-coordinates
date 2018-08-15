@@ -1,0 +1,8 @@
+extends: eslint-config-airbnb-es5
+env:
+  jquery: True
+rules:
+  new-cap: ["error", { "capIsNew": False }]
+  no-unused-vars: "off"
+  func-names: ["error", "never"]
+  valid-jsdoc: ["error", { "requireParamDescription": False, "requireReturnDescription": False}]
