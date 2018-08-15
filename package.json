@@ -1,0 +1,22 @@
+{
+  "name": "coordinates_converter",
+  "version": "1.0.0",
+  "description": "simple lib to convert coordinates from WGS84 to Decimal Degrees and back",
+  "main": "coords.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "qunit": "^2.6.1"
+  },
+  "scripts": {
+    "test": "qunit"
+  },
+  "keywords": [
+    "gps",
+    "coordinates",
+    "degrees"
+  ],
+  "author": "Oleg Kainov"
+}
