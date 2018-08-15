@@ -15,7 +15,7 @@ function parseDD(line) {
 
 function parseWSG84(line) {
 
-    var re = /^([NS]) (\d{1,2}). (\d{1,2}(?:\.\d{1,4})?)'?.?\s*([EW]) (\d{1,2}). (\d{1,2}(?:\.\d{1,4})?)'?/;
+    var re = /^([NS])\s*(\d{1,2}). (\d{1,2}(?:\.\d{1,4})?)'?[,\s/\\]+([EW])\s*(\d{1,2}). (\d{1,2}(?:\.\d{1,4})?)'?/;
     var match = re.exec(line.trim());
     if (!match) {
         return false;
