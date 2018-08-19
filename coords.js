@@ -29,6 +29,9 @@ function checkGlue(glue) {
   if (typeof glue === 'undefined') {
     newGlue = ', ';
   }
+  else {
+    newGlue=glue;
+  }
   return newGlue;
 }
 
