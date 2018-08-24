@@ -70,3 +70,12 @@ QUnit.test('long lat', function (assert) {
 QUnit.test('long lat 1', function (assert) {
   assert.notOk(parseDD('1111111111.13, 1.32'));
 });
+QUnit.test('not together with other coords in the end', function (assert) {
+  assert.notOk(parseDD('1.123 2.345 test words 14'));
+});
+QUnit.test('not together with other coords in the beginning', function (assert) {
+  assert.notOk(parseDD('1qqq1.123 2.345 test word'));
+});
+QUnit.test('two coordinates', function (assert) {
+  assert.notOk(parseDD('32.2341, 24.391353 32.2341, 24.391353'));
+});

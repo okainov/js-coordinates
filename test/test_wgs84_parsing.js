@@ -46,6 +46,9 @@ QUnit.test('no space after N', function (assert) {
 QUnit.test('no space after E', function (assert) {
   assert.ok(parseWSG84('N 47° 30.525 E39° 27.966'));
 });
+QUnit.test('with text in the beginning', function (assert) {
+  assert.ok(parseWSG84('test word N 47° 30.525 E39° 27.966'));
+});
 
 QUnit.module('WGS84 Parsing Values');
 
@@ -57,4 +60,10 @@ QUnit.test('lon letter', function (assert) {
 });
 QUnit.test('lon minutes integer', function (assert) {
   assert.equal(parseWSG84('N 47° 30.525 E 39° 27').lon_min, 27);
+});
+
+QUnit.module('WGS84 Negative Parsing');
+
+QUnit.test('two coordinates', function (assert) {
+  assert.notOk(parseWSG84('N 47° 30.525 E39° 27.966 N 47° 30.525 E39° 27.966'));
 });

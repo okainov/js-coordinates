@@ -1,5 +1,5 @@
 function parseDD(line) {
-  var re = /(-?[0-9]+(?:\.[0-9]{1,10})?)[,\s]+(-?[0-9]+(?:\.[0-9]{1,10})?)/;
+  var re = /^\D*(-?[0-9]+(?:\.[0-9]{1,10})?)[,\s]+(-?[0-9]+(?:\.[0-9]{1,10})?)\D*$/;
   var match = re.exec(line.trim());
   if (!match) {
     return false;
@@ -13,7 +13,7 @@ function parseDD(line) {
 }
 
 function parseWSG84(line) {
-  var re = /^([NS])\s*(\d{1,2}). (\d{1,2}(?:\.\d{1,4})?)'?[,\s/\\]+([EW])\s*(\d{1,2}). (\d{1,2}(?:\.\d{1,4})?)'?/;
+  var re = /^\D*([NS])\s*(\d{1,2}). (\d{1,2}(?:\.\d{1,4})?)'?[,\s/\\]+([EW])\s*(\d{1,2}). (\d{1,2}(?:\.\d{1,4})?)'?\D*$/;
   var match = re.exec(line.trim());
   if (!match) {
     return false;
@@ -28,9 +28,8 @@ function checkGlue(glue) {
   var newGlue = ', ';
   if (typeof glue === 'undefined') {
     newGlue = ', ';
-  }
-  else {
-    newGlue=glue;
+  } else {
+    newGlue = glue;
   }
   return newGlue;
 }
@@ -79,19 +78,20 @@ function DDtoWGS84(lat, lon, _glue) {
 
   // \xB0 is °
   return $latLetter + ' ' + $latDeg + '\xB0 ' + $latMin.toFixed(3) + "'" + glue +
-        $lotLetter + ' ' + $lonDeg + '\xB0 ' + $lonMin.toFixed(3) + "'";
+    $lotLetter + ' ' + $lonDeg + '\xB0 ' + $lonMin.toFixed(3) + "'";
 }
 
 function transformCoordinatesString(line, glue) {
   var coordsFrom = line.trim();
   var coordsTo = '[Unknown format]';
-  var res = parseDD(coordsFrom);
+
+  var res = parseWSG84(coordsFrom);
   if (res) {
-    coordsTo = DDtoWGS84(res.lat, res.lon, glue);
-  } else if (parseWSG84(coordsFrom)) {
-    res = parseWSG84(coordsFrom);
     coordsTo = WGS84toDD(res.lat, res.lat_deg, res.lat_min,
       res.lon, res.lon_deg, res.lon_min, glue);
+  } else if (parseDD(coordsFrom)) {
+    res = parseDD(coordsFrom);
+    coordsTo = DDtoWGS84(res.lat, res.lon, glue);
   }
   return coordsTo;
 }
@@ -101,9 +101,26 @@ function transformCoordinatesInElem(e, glue) {
   $(e).html(transformCoordinatesString(coordsFrom, glue));
 }
 
+function transformCoordinatesInElemValue(e, glue) {
+  var coordsFrom = $(e).val().trim();
+  $(e).val(transformCoordinatesString(coordsFrom, glue));
+}
+
+function transformCoordinatesInElemByIdValue(id, glue) {
+  var $elem = $('#' + id);
+  var coordsFrom = $elem.val().trim();
+  $elem.val(transformCoordinatesString(coordsFrom, glue));
+}
+
 function transformCoordinatesInElemById(id, glue) {
   var $elem = $('#' + id);
   transformCoordinatesInElem($elem, glue);
+}
+
+function transformCoordinatesInElemBySelector(selector, glue) {
+  $(selector).each(function (index) {
+    transformCoordinatesInElem(this, glue);
+  });
 }
 
 if (typeof module !== 'undefined' && module.exports) {
