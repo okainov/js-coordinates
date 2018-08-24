@@ -1,26 +1,31 @@
 function parseDD(line) {
-  var re = /^\D*(-?[0-9]+(?:\.[0-9]{1,10})?)[,\s]+(-?[0-9]+(?:\.[0-9]{1,10})?)\D*$/;
-  var match = re.exec(line.trim());
+  const re = /^\D*?(-?[0-9]+(?:\.[0-9]{1,10})?)[,\s]+(-?[0-9]+(?:\.[0-9]{1,10})?)\D*$/;
+  const match = re.exec(line.trim());
   if (!match) {
     return false;
   }
   var $lat = parseFloat(match[1]);
   var $lon = parseFloat(match[2]);
-  if (Math.abs($lat) > 180 || Math.abs($lon) > 180) {
+  if (Math.abs($lat) > 90 || Math.abs($lon) > 180) {
     return false;
   }
   return {'lat': $lat, 'lon': $lon};
 }
 
 function parseWSG84(line) {
-  var re = /^\D*([NS])\s*(\d{1,2}).\s*(\d{1,2}(?:[.,]\d{1,4})?)'?[,\s/\\]+([EW])\s*(\d{1,2}).\s*(\d{1,2}(?:[.,]\d{1,4})?)'?\D*$/;
-  var match = re.exec(line.trim());
+  const re = /^\D*([NS])\s*(\d{1,2}).\s*(\d{1,2}(?:[.,]\d{1,4})?)'?[,\s/\\]+([EW])\s*(\d{1,3}).\s*(\d{1,2}(?:[.,]\d{1,4})?)'?\D*$/;
+  const match = re.exec(line.trim());
   if (!match) {
     return false;
   }
+  const $latDeg = parseInt(match[2], 10);
+  const $lonDeg = parseInt(match[5], 10);
+  if ($latDeg > 90 || $lonDeg > 180) {
+    return false;
+  }
   return {
-    'lat': match[1], 'lat_deg': parseInt(match[2], 10), 'lat_min': parseFloat(match[3]),
-    'lon': match[4], 'lon_deg': parseInt(match[5], 10), 'lon_min': parseFloat(match[6])
+    'lat': match[1], 'lat_deg': $latDeg, 'lat_min': parseFloat(match[3]),
+    'lon': match[4], 'lon_deg': $lonDeg, 'lon_min': parseFloat(match[6])
   };
 }
 

@@ -54,6 +54,9 @@ QUnit.test('as member', function (assert) {
 QUnit.test('inline no spaces', function (assert) {
   assert.deepEqual(parseDD('inside1,3.2text'), {'lat': 1.0, 'lon': 3.2});
 });
+QUnit.test('negative lat', function (assert) {
+  assert.equal(parseDD('-1.321, -32.123').lat, -1.321);
+});
 
 QUnit.module('Decimal Degrees Parsing Negative');
 
@@ -82,3 +85,13 @@ QUnit.test('two coordinates', function (assert) {
 QUnit.test('not WGS', function (assert) {
   assert.notOk(parseDD('N58.23.528 E40.39.973'));
 });
+QUnit.test('lat>180', function (assert) {
+  assert.notOk(parseDD('200 4'));
+});
+QUnit.test('lat>90', function (assert) {
+  assert.notOk(parseDD('-91 4'));
+});
+QUnit.test('lon>180', function (assert) {
+  assert.notOk(parseDD('1 200'));
+});
+

@@ -58,6 +58,9 @@ QUnit.test('without space', function (assert) {
 QUnit.test('with dots everywhere', function (assert) {
   assert.ok(parseWSG84('N58.23.528 E40.39.973'));
 });
+QUnit.test('180>lon>100', function (assert) {
+  assert.ok(parseWSG84('N 47° 30.525 E 125° 27.966'));
+});
 
 QUnit.module('WGS84 Parsing Values');
 
@@ -75,4 +78,13 @@ QUnit.module('WGS84 Negative Parsing');
 
 QUnit.test('two coordinates', function (assert) {
   assert.notOk(parseWSG84('N 47° 30.525 E39° 27.966 N 47° 30.525 E39° 27.966'));
+});
+QUnit.test('lat > 100', function (assert) {
+  assert.notOk(parseWSG84('N 100° 30.525 E 39° 27.966'));
+});
+QUnit.test('lat > 90', function (assert) {
+  assert.notOk(parseWSG84('N 91° 30.525 E 39° 27.966'));
+});
+QUnit.test('lon > 180', function (assert) {
+  assert.notOk(parseWSG84('N 11° 30.525 E 206° 27.966'));
 });
