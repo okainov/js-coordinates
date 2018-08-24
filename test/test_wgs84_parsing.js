@@ -49,6 +49,15 @@ QUnit.test('no space after E', function (assert) {
 QUnit.test('with text in the beginning', function (assert) {
   assert.ok(parseWSG84('test word N 47° 30.525 E39° 27.966'));
 });
+QUnit.test('with comma', function (assert) {
+  assert.ok(parseWSG84('N 47° 30,525 E 39° 27,966'));
+});
+QUnit.test('without space', function (assert) {
+  assert.ok(parseWSG84('N 47°30.525 E 39°27.966'));
+});
+QUnit.test('with dots everywhere', function (assert) {
+  assert.ok(parseWSG84('N58.23.528 E40.39.973'));
+});
 
 QUnit.module('WGS84 Parsing Values');
 

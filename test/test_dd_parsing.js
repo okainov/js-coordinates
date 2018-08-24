@@ -79,3 +79,6 @@ QUnit.test('not together with other coords in the beginning', function (assert) 
 QUnit.test('two coordinates', function (assert) {
   assert.notOk(parseDD('32.2341, 24.391353 32.2341, 24.391353'));
 });
+QUnit.test('not WGS', function (assert) {
+  assert.notOk(parseDD('N58.23.528 E40.39.973'));
+});

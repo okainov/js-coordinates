@@ -13,7 +13,7 @@ function parseDD(line) {
 }
 
 function parseWSG84(line) {
-  var re = /^\D*([NS])\s*(\d{1,2}). (\d{1,2}(?:\.\d{1,4})?)'?[,\s/\\]+([EW])\s*(\d{1,2}). (\d{1,2}(?:\.\d{1,4})?)'?\D*$/;
+  var re = /^\D*([NS])\s*(\d{1,2}).\s*(\d{1,2}(?:[.,]\d{1,4})?)'?[,\s/\\]+([EW])\s*(\d{1,2}).\s*(\d{1,2}(?:[.,]\d{1,4})?)'?\D*$/;
   var match = re.exec(line.trim());
   if (!match) {
     return false;
