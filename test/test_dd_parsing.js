@@ -37,17 +37,21 @@ QUnit.test('not in the beginning', function (assert) {
 QUnit.test('not in the end', function (assert) {
   assert.ok(parseDD('32.2341, 24.391353ppp test'));
 });
+QUnit.test('with comma', function (assert) {
+  assert.ok(parseDD('32,2341 24,391353'));
+});
 
 QUnit.module('Decimal Degrees Parsing Values');
 
 QUnit.test('lat integer coordinates', function (assert) {
   assert.equal(parseDD('1, 2').lat, 1);
 });
-
+QUnit.test('with comma', function (assert) {
+  assert.equal(parseDD('1,123 2').lat, 1.123);
+});
 QUnit.test('lon float coordinates', function (assert) {
   assert.equal(parseDD('1, -32.123').lon, -32.123);
 });
-
 QUnit.test('as member', function (assert) {
   assert.equal(parseDD('1, -32.123').lon, -32.123);
 });

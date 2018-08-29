@@ -1,11 +1,11 @@
 function parseDD(line) {
-  const re = /^\D*?(-?[0-9]+(?:\.[0-9]{1,10})?)[,\s]+(-?[0-9]+(?:\.[0-9]{1,10})?)\D*$/;
+  const re = /^\D*?(-?[0-9]+(?:[.,][0-9]{1,10})?)[,\s]+(-?[0-9]+(?:[.,][0-9]{1,10})?)\D*$/;
   const match = re.exec(line.trim());
   if (!match) {
     return false;
   }
-  var $lat = parseFloat(match[1]);
-  var $lon = parseFloat(match[2]);
+  var $lat = parseFloat(match[1].replace(',', '.'));
+  var $lon = parseFloat(match[2].replace(',', '.'));
   if (Math.abs($lat) > 90 || Math.abs($lon) > 180) {
     return false;
   }
