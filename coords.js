@@ -23,9 +23,13 @@ function parseWSG84(line) {
   if ($latDeg > 90 || $lonDeg > 180) {
     return false;
   }
+
+  const $latMin = parseFloat(match[3].replace(',', '.'));
+  const $lonMin = parseFloat(match[6].replace(',', '.'));
+
   return {
-    'lat': match[1], 'lat_deg': $latDeg, 'lat_min': parseFloat(match[3]),
-    'lon': match[4], 'lon_deg': $lonDeg, 'lon_min': parseFloat(match[6])
+    'lat': match[1], 'lat_deg': $latDeg, 'lat_min': $latMin,
+    'lon': match[4], 'lon_deg': $lonDeg, 'lon_min': $lonMin
   };
 }
 

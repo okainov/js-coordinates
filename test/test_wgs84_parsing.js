@@ -73,6 +73,9 @@ QUnit.test('lon letter', function (assert) {
 QUnit.test('lon minutes integer', function (assert) {
   assert.equal(parseWSG84('N 47° 30.525 E 39° 27').lon_min, 27);
 });
+QUnit.test('with comma', function (assert) {
+  assert.equal(parseWSG84('N 47° 30,525 E 39° 27.966').lat_min, 30.525);
+});
 
 QUnit.module('WGS84 Negative Parsing');
 
