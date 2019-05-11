@@ -92,7 +92,7 @@ function DDtoWGS84(lat, lon, _glue) {
 
 function transformCoordinatesString(line, glue) {
   var coordsFrom = line.trim();
-  var coordsTo = '[Unknown format]';
+  var coordsTo = coordsFrom;
 
   var res = parseWSG84(coordsFrom);
   if (res) {
@@ -138,4 +138,6 @@ if (typeof module !== 'undefined' && module.exports) {
 
   exports.DDtoWGS84 = DDtoWGS84;
   exports.WGS84toDD = WGS84toDD;
+
+  exports.transformCoordinatesString = transformCoordinatesString;
 }
