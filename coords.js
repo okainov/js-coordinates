@@ -1,5 +1,5 @@
 function parseDD(line) {
-  const re = /^\D*?(-?[0-9]+(?:[.,][0-9]{1,10})?)[,\s]+(-?[0-9]+(?:[.,][0-9]{1,10})?)\D*$/;
+  const re = /^\D*?(-?[0-9]+(?:[.,][0-9]{1,20})?)[,\s]+(-?[0-9]+(?:[.,][0-9]{1,20})?)\D*$/;
   const match = re.exec(line.trim());
   if (!match) {
     return false;

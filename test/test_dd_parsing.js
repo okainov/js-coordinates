@@ -13,6 +13,9 @@ QUnit.test('float coordinates', function (assert) {
 QUnit.test('long coordinates', function (assert) {
   assert.ok(parseDD('32.123456789, 24.123456789'));
 });
+QUnit.test('very long coordinates', function (assert) {
+  assert.ok(parseDD('-0.06294248523783992 -0.02248764038085938'));
+});
 QUnit.test('integer coordinates', function (assert) {
   assert.ok(parseDD('1, 2'));
 });
