@@ -4,12 +4,12 @@ function parseDD(line) {
   if (!match) {
     return false;
   }
-  var $lat = parseFloat(match[1].replace(',', '.'));
-  var $lon = parseFloat(match[2].replace(',', '.'));
-  if (Math.abs($lat) > 90 || Math.abs($lon) > 180) {
+  var lat = parseFloat(match[1].replace(',', '.'));
+  var lon = parseFloat(match[2].replace(',', '.'));
+  if (Math.abs(lat) > 90 || Math.abs(lon) > 180) {
     return false;
   }
-  return {'lat': $lat, 'lon': $lon};
+  return {'lat': lat, 'lon': lon};
 }
 
 function parseWSG84(line) {
@@ -18,18 +18,18 @@ function parseWSG84(line) {
   if (!match) {
     return false;
   }
-  const $latDeg = parseInt(match[2], 10);
-  const $lonDeg = parseInt(match[5], 10);
-  if ($latDeg > 90 || $lonDeg > 180) {
+  const latDeg = parseInt(match[2], 10);
+  const lonDeg = parseInt(match[5], 10);
+  if (latDeg > 90 || lonDeg > 180) {
     return false;
   }
 
-  const $latMin = parseFloat(match[3].replace(',', '.'));
-  const $lonMin = parseFloat(match[6].replace(',', '.'));
+  const latMin = parseFloat(match[3].replace(',', '.'));
+  const lonMin = parseFloat(match[6].replace(',', '.'));
 
   return {
-    'lat': match[1], 'lat_deg': $latDeg, 'lat_min': $latMin,
-    'lon': match[4], 'lon_deg': $lonDeg, 'lon_min': $lonMin
+    'lat': match[1], 'lat_deg': latDeg, 'lat_min': latMin,
+    'lon': match[4], 'lon_deg': lonDeg, 'lon_min': lonMin
   };
 }
 
@@ -56,12 +56,12 @@ function checkGlue(glue) {
 function WGS84toDD(lat, latDeg, latMin, lon, lonDeg, lonMin, _glue) {
   var glue = checkGlue(_glue);
 
-  var $la = latDeg + (latMin / 60);
-  var $lo = lonDeg + (lonMin / 60);
-  if (lat === 'S') $la = -$la;
-  if (lon === 'W') $lo = -$lo;
+  var la = latDeg + (latMin / 60);
+  var lo = lonDeg + (lonMin / 60);
+  if (lat === 'S') la = -la;
+  if (lon === 'W') lo = -lo;
 
-  return $la.toFixed(5) + glue + $lo.toFixed(5);
+  return la.toFixed(5) + glue + lo.toFixed(5);
 }
 
 /**
@@ -73,21 +73,21 @@ function WGS84toDD(lat, latDeg, latMin, lon, lonDeg, lonMin, _glue) {
 function DDtoWGS84(lat, lon, _glue) {
   var glue = checkGlue(_glue);
 
-  var $latLetter = lat >= 0 ? 'N' : 'S';
-  var $lotLetter = lon >= 0 ? 'E' : 'W';
+  var latLetter = lat >= 0 ? 'N' : 'S';
+  var lotLetter = lon >= 0 ? 'E' : 'W';
 
-  var $lat = Math.abs(lat);
-  var $lon = Math.abs(lon);
+  lat = Math.abs(lat);
+  lon = Math.abs(lon);
 
-  var $latDeg = Math.floor($lat);
-  var $lonDeg = Math.floor($lon);
+  var latDeg = Math.floor(lat);
+  var lonDeg = Math.floor(lon);
 
-  var $latMin = ($lat - $latDeg) * 60;
-  var $lonMin = ($lon - $lonDeg) * 60;
+  var latMin = (lat - latDeg) * 60;
+  var lonMin = (lon - lonDeg) * 60;
 
   // \xB0 is °
-  return $latLetter + ' ' + $latDeg + '\xB0 ' + $latMin.toFixed(3) + "'" + glue +
-    $lotLetter + ' ' + $lonDeg + '\xB0 ' + $lonMin.toFixed(3) + "'";
+  return latLetter + ' ' + latDeg + '\xB0 ' + latMin.toFixed(3) + "'" + glue +
+    lotLetter + ' ' + lonDeg + '\xB0 ' + lonMin.toFixed(3) + "'";
 }
 
 function transformCoordinatesString(line, glue) {
@@ -106,29 +106,29 @@ function transformCoordinatesString(line, glue) {
 }
 
 function transformCoordinatesInElem(e, glue) {
-  var coordsFrom = $(e).text().trim();
-  $(e).html(transformCoordinatesString(coordsFrom, glue));
+  var coordsFrom = e.textContent.trim();
+  e.innerHTML = transformCoordinatesString(coordsFrom, glue);
 }
 
 function transformCoordinatesInElemValue(e, glue) {
-  var coordsFrom = $(e).val().trim();
-  $(e).val(transformCoordinatesString(coordsFrom, glue));
+  var coordsFrom = e.value.trim();
+  e.value = transformCoordinatesString(coordsFrom, glue);
 }
 
 function transformCoordinatesInElemByIdValue(id, glue) {
-  var $elem = $('#' + id);
-  var coordsFrom = $elem.val().trim();
-  $elem.val(transformCoordinatesString(coordsFrom, glue));
+  var elem = document.getElementById(id);
+  var coordsFrom = elem.textContent.trim();
+  elem.textContent = transformCoordinatesString(coordsFrom, glue);
 }
 
 function transformCoordinatesInElemById(id, glue) {
-  var $elem = $('#' + id);
-  transformCoordinatesInElem($elem, glue);
+  var elem = document.getElementById(id);
+  transformCoordinatesInElem(elem, glue);
 }
 
 function transformCoordinatesInElemBySelector(selector, glue) {
-  $(selector).each(function (index) {
-    transformCoordinatesInElem(this, glue);
+  document.querySelectorAll(selector).forEach(function (item) {
+    transformCoordinatesInElem(item, glue);
   });
 }
 
