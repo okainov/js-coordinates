@@ -66,8 +66,8 @@ function WGS84toDD(lat, latDeg, latMin, lon, lonDeg, lonMin, _glue) {
 
 /**
  * @returns {string}
- * @param {number} lat
- * @param {number} lon
+ * @param {number} _lat
+ * @param {number} _lon
  * @param {string} _glue symbols used to glue lat and lon together in result string
  */
 function DDtoWGS84(_lat, _lon, _glue) {
