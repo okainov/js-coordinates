@@ -70,14 +70,14 @@ function WGS84toDD(lat, latDeg, latMin, lon, lonDeg, lonMin, _glue) {
  * @param {number} lon
  * @param {string} _glue symbols used to glue lat and lon together in result string
  */
-function DDtoWGS84(lat, lon, _glue) {
+function DDtoWGS84(_lat, _lon, _glue) {
   var glue = checkGlue(_glue);
 
-  var latLetter = lat >= 0 ? 'N' : 'S';
-  var lotLetter = lon >= 0 ? 'E' : 'W';
+  var latLetter = _lat >= 0 ? 'N' : 'S';
+  var lotLetter = _lon >= 0 ? 'E' : 'W';
 
-  lat = Math.abs(lat);
-  lon = Math.abs(lon);
+  var lat = Math.abs(_lat);
+  var lon = Math.abs(_lon);
 
   var latDeg = Math.floor(lat);
   var lonDeg = Math.floor(lon);
@@ -117,8 +117,8 @@ function transformCoordinatesInElemValue(e, glue) {
 
 function transformCoordinatesInElemByIdValue(id, glue) {
   var elem = document.getElementById(id);
-  var coordsFrom = elem.textContent.trim();
-  elem.textContent = transformCoordinatesString(coordsFrom, glue);
+  var coordsFrom = elem.value.trim();
+  elem.value = transformCoordinatesString(coordsFrom, glue);
 }
 
 function transformCoordinatesInElemById(id, glue) {
